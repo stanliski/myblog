@@ -140,7 +140,18 @@ slave2</p>
 </configuration>
 </p>
 </pre>
-  <h3>
+<h4>配置文件4：hdfs-site.xml</h4>
+<h4>配置文件5：mapred-site.xml</h4>
+<h4>yarn-site.xml：暂时无需配置</h4>
+<p>配置文件6：yarn-site.xml：暂时无需配置
+</p>
+<h3>3.复制到其他节点</h3>
+<p>master通过scp命令(必须先配置好ssh服务)将配置文件传输给两个子节点slave1,slave2,下面以slave1为例</p> 
+<pre>
+<code>$ scp -r ~/hadoop-2.2.0 hadoop@slave1:~/
+$ scp -r ~/hadoop-2.2.0 hadoop@slave2:~/</code>
+</pre>
+<h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
 
 <p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
