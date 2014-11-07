@@ -38,7 +38,8 @@
 Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http://mirror.esocc.com/apache/hadoop/common/stable/
 </p>
 <h3>Hadoop集群环境搭建准备</h3>
-这里我们搭建一个由三台机器组成的集群：
+这里我们搭建一个由三台机器组成的集群
+<p>
 <table>
 <tr>
 	<th>Ip地址</th>
@@ -65,6 +66,7 @@ Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http:
 	<td>CentOS 64bit</td>
 </tr>
 </table>
+</p>
 <h4>1.通过如下配置master, slave1, slave2。<h4>
 <h4>1) 通过vim /etc/hostname修改主机名。<h4>
 <h4>2) 通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
@@ -128,7 +130,6 @@ slave1
 slave2</p>
 <h4>配置文件3：core-site.xml
 </h4>
-<pre>
 <p>
 <configuration>
 	<property>
@@ -147,7 +148,6 @@ slave2</p>
 	  </property> 
 </configuration>
 </p>
-</pre>
 <h4>配置文件4：hdfs-site.xml</h4>
 <h4>配置文件5：mapred-site.xml</h4>
 <h4>yarn-site.xml：暂时无需配置</h4>
