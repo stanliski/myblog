@@ -31,8 +31,35 @@
         <h3>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
+<p>
+Hadoop 2.2下载
+  Hadoop2.2.0 我们可以直接从Apache官方网站下载。
+  下载地址：http://mirror.esocc.com/apache/hadoop/common/stable/
+Hadoop集群环境搭建准备
+这里我们搭建一个由三台机器组成的集群：
+ 
+       Ip地址
+   用户名   
+  主机名
+        系统
+192.168.1.105  
+  hadoop
+ master
+ Ubuntu  64bit   
+192.168.1.120
+  hadoop
+ slave2    
+ CentOS 64bit
+192.168.1.104
+  hadoop
+ slave1
+ CentOS 64bit
+ 
+1.通过如下配置master, slave1, slave2。
+1)通过vim /etc/hostname修改主机名。
+2)通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
+master，slave1，slave2三台主机安装ssh服务，实现各个节点间的无密码登录！
+        进入slave1的～/.ssh目录下</p>
 <pre><code>
 $ ssh-keygen
 $ chmod 700 ~/.ssh/
