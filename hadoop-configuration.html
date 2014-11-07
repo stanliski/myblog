@@ -70,16 +70,14 @@ $ chmod 600 authorized_keys
 $ scp authorized_keys hadoop@slave2:~/.ssh/
 </code></pre>
 <p>进入slave2的～/.ssh目录下<p>
-<pre><code>
-$ ssh-keygen
+<pre><code>$ ssh-keygen
 $ chmod 700 ~/.ssh/
 $ cat id_rsa.pub >> authorized_keys
 $ chmod 600 authorized_keys
 $ scp authorized_keys hadoop@master:~/.ssh/
 </code></pre>
 <p>进入master的～/.ssh目录下<p>
-<pre><code>
-$ ssh-keygen
+<pre><code>$ ssh-keygen
 $ chmod 700 ~/.ssh/
 $ cat id_rsa.pub >> authorized_keys
 $ chmod 600 authorized_keys
@@ -105,6 +103,43 @@ JDK安装:包含master，slave1， slave2三节点，最好位置统一,例如�
 配置之前，需要在master本地文件系统创建以下文件夹：
 这里要涉及到的配置文件有6个：  
 </p>
+<pre>
+<code>~/hadoop-2.2.0/etc/hadoop/hadoop-env.sh
+~/hadoop-2.2.0/etc/hadoop/slaves
+~/hadoop-2.2.0/etc/hadoop/core-site.xml
+~/hadoop-2.2.0/etc/hadoop/hdfs-site.xml
+~/hadoop-2.2.0/etc/hadoop/mapred-site.xml
+~/hadoop-2.2.0/etc/hadoop/yarn-site.xml</code>
+</pre>
+<p>以上文件默认不存在的，可以复制相应的template文件获得。
+配置文件1：hadoop-env.sh（slave1，slave2也需要配置）
+修改JAVA_HOME值（export  JAVA_HOME=/opt/java/jdk）
+配置文件2：slaves （这个文件里面保存所有slave节点）
+写入以下内容：
+slave1
+slave2</p>
+<h4>配置文件3：core-site.xml
+</h4>
+<pre>
+<code>
+<configuration>
+	<property>
+	  <name>hadoop.tmp.dir</name>
+	  <value>/home/hadoop/tmp/hadoop-${user.name}</value>
+	  <description>A base for other temporarydirectories.</description>
+	</property>
+	<property>
+	   <name>fs.default.name</name>
+	   <value>hdfs://master:8010</value>
+	   <description>The name of the default file system.  A URI whose
+	           scheme and authority determine the FileSystem implementation.  The
+	              uri's scheme determines the config property (fs.SCHEME.impl) naming
+	                 the FileSystem implementation class. The uri's authority is used to
+	                    determine the host, port, etc. for a filesystem.</description>
+	  </property> 
+</configuration>
+</code>
+</pre>
   <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
 
