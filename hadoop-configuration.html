@@ -159,14 +159,15 @@ $ scp -r ~/hadoop-2.2.0 hadoop@slave2:~/</code>
 <pre><code>./bin/hdfs namenode –format </code></pre>
   <h4>2.启动hdfs:</h4>
  <pre><code>./sbin/start-dfs.sh</code></pre>
-  <p>此时在master上面运行的进程有：
-namenode secondarynamenode
+  <p>此时在master上面运行的进程有：</p>
+  <pre>namenode secondarynamenode</pre>
    
-slave1和slave2上面运行的进程有：datanode
-  </p>
+  <p>slave1和slave2上面运行的进程有：datanode</p>
+ 
   <h4>3.启动yarn: ./sbin/start-yarn.sh</h4>
-<p>此时在master上面运行的进程有：namenode secondarynamenoderesourcemanager
-  slave1和slave2上面运行的进程有：datanode nodemanaget</p>
+  <p>此时在master上面运行的进程有：</p>
+  <pre><code>namenode secondarynamenoderesourcemanager</code></pre>
+  <p>slave1和slave2上面运行的进程有：datanode nodemanaget</p>
   <h4>5.查看集群状态：</h4>
   <pre><code>./bin/hdfs dfsadmin –report</pre></code>
 
