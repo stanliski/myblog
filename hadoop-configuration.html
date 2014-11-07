@@ -170,7 +170,49 @@ $ scp -r ~/hadoop-2.2.0 hadoop@slave2:~/</code>
   <p>slave1和slave2上面运行的进程有：datanode nodemanaget</p>
   <h4>4.查看集群状态：</h4>
   <pre><code>./bin/hdfs dfsadmin –report</pre></code>
+  <p> 运行命令：
+最终运行结果如下所示，则安装成功！</p>
+  <pre><code>hadoop@master:~/hadoop-2.2.0/bin$ ./hdfs dfsadmin -report
+14/03/20 21:24:44 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Configured Capacity: 139443990528 (129.87 GB)
+Present Capacity: 123374796800 (114.90 GB)
+DFS Remaining: 123374747648 (114.90 GB)
+DFS Used: 49152 (48 KB)
+DFS Used%: 0.00%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
 
+
+-------------------------------------------------
+Datanodes available: 2 (2 total, 0 dead)
+
+
+Live datanodes:
+Name: 192.168.1.120:50010 (slave2)
+Hostname: slave2
+Decommission Status : Normal
+Configured Capacity: 100111396864 (93.24 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 8277905408 (7.71 GB)
+DFS Remaining: 91833466880 (85.53 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 91.73%
+Last contact: Thu Mar 20 21:24:44 CST 2014
+
+
+
+
+Name: 192.168.1.104:50010 (slave1)
+Hostname: slave1
+Decommission Status : Normal
+Configured Capacity: 39332593664 (36.63 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 7791288320 (7.26 GB)
+DFS Remaining: 31541280768 (29.38 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 80.19%
+Last contact: Thu Mar 20 21:24:43 CST 2014</code></pre>
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
 
