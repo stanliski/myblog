@@ -42,34 +42,8 @@
 <p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 <div class="highlight highlight-Java">
 <pre><code>
-Map<String, List<String>> results = new HashMap<String, List<String>>();
-
-    public List<String> wordBreak(String s, Set<String> dict) {
-        List<String> words = new ArrayList<String>();
-
-        int len = s.length();
-        for (int i = 1; i <= len; i++) {
-            String front = s.substring(0, i);
-            if (dict.contains(front)) {
-                if (i == len) {
-                    words.add(front);
-                } else {
-                    String remain = s.substring(i, len);
-                    List<String> remainSet = results.containsKey(remain) ? 
-                            results.get(remain) : wordBreak(remain, dict);
-                    if (remainSet != null) {
-                        for (String item : remainSet) {
-                            words.add(front + " " + item);
-                        }
-                        results.put(remain, remainSet);
-                    }  
-
-                }
-            }
-        }
-        return words;
-    }
-
+北京信息科技大学（原北京信息工程学院）  网络工程系						    2008-2012
+北京大学	                              软件技术系							2013.9入学
 </code></pre>
 </div>
 <p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
