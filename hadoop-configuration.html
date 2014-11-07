@@ -39,24 +39,32 @@ Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http:
 </p>
 <h3>Hadoop集群环境搭建准备</h3>
 这里我们搭建一个由三台机器组成的集群：
-<pre><code>
-  Ip地址
-   用户名   
-  主机名
-        系统
-192.168.1.105  
-  hadoop
- master
- Ubuntu  64bit   
-192.168.1.120
-  hadoop
- slave2    
- CentOS 64bit
-192.168.1.104
-  hadoop
- slave1
- CentOS 64bit
-</code></pre>
+<table>
+<tr>
+	<th>Ip地址</th>
+	<th>用户名</th>
+	<th>主机名</th>
+	<th>系统</th>
+</tr>
+<tr>
+	<td>192.168.1.105</td>
+	<td>hadoop</td>
+	<td>master</td>
+	<td>Ubuntu  64bit</td>
+</tr>
+<tr>
+	<td>192.168.1.120</td>
+	<td>hadoop</td>
+	<td>slave2</td>
+	<td>CentOS 64bit</td>
+</tr>
+<tr>
+	<td>192.168.1.104</td>
+	<td>hadoop</td>
+	<td>slave1</td>
+	<td>CentOS 64bit</td>
+</tr>
+</table>
 <h4>1.通过如下配置master, slave1, slave2。<h4>
 <h4>1) 通过vim /etc/hostname修改主机名。<h4>
 <h4>2) 通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
