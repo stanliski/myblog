@@ -28,8 +28,8 @@
         </ul>
       </header>
       <section>
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hadoop三节点的搭建</h3>
+        <h1>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hadoop三节点的搭建</h1>
 
 <p>
  <h3>
@@ -151,6 +151,25 @@ slave2</p>
 <code>$ scp -r ~/hadoop-2.2.0 hadoop@slave1:~/
 $ scp -r ~/hadoop-2.2.0 hadoop@slave2:~/</code>
 </pre>
+<h3>4.启动验证</h3>
+<h4>1.启动hadoop<h4>
+<p>进入安装目录：</p>
+<pre><code>cd  ~/hadoop-2.2.0/</code></pre>
+<p>格式化namenode：</p>
+<pre><code>./bin/hdfs namenode –format </code></pre>
+  <h4>2.启动hdfs:</h4>
+ <pre><code>./sbin/start-dfs.sh</code></pre>
+  <p>此时在master上面运行的进程有：
+namenode secondarynamenode
+   
+slave1和slave2上面运行的进程有：datanode
+  </p>
+  <h4>3.启动yarn: ./sbin/start-yarn.sh</h4>
+<p>此时在master上面运行的进程有：namenode secondarynamenoderesourcemanager
+  slave1和slave2上面运行的进程有：datanode nodemanaget</p>
+  <h4>5.查看集群状态：</h4>
+  <pre><code>./bin/hdfs dfsadmin –report</pre></code>
+
 <h3>
 <a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
 
