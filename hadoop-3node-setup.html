@@ -38,7 +38,7 @@
 Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http://mirror.esocc.com/apache/hadoop/common/stable/
 </p>
 <h3>Hadoop集群环境搭建准备</h3>
-这里我们搭建一个由三台机器组成的集群
+<p>这里我们搭建一个由三台机器组成的集群</p>
 <p>
 <table>
 <tr>
@@ -68,10 +68,10 @@ Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http:
 </table>
 </p>
 <h4>1.通过如下配置master, slave1, slave2。<h4>
-<h4>1) 通过vim /etc/hostname修改主机名。<h4>
-<h4>2) 通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
+<p>1) 通过vim /etc/hostname修改主机名。</p>
+<p>2) 通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
 master，slave1，slave2三台主机安装ssh服务，实现各个节点间的无密码登录！
-        进入slave1的～/.ssh目录下<h4>
+        进入slave1的～/.ssh目录下</p>
 <pre><code>
 $ ssh-keygen
 $ chmod 700 ~/.ssh/
