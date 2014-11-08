@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blogs by Stanliski</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <!--
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://softwaremaniacs.org/media/soft/highlight/styles/tomorrow-night-bright.css">
+	<script src="http://softwaremaniacs.org/media/soft/highlight/highlight.pack.js"></script>
+	<script>
+		hljs.tabReplace = '    ';
+		hljs.initHighlightingOnLoad();
+	</script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stanliski's Blog</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/Andy19890601/myblog">View the Project on GitHub <small>stanliski/myblog</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Andy19890601/myblog/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog">View On <strong>GitHub</strong></a></li>
+        </ul>
+        
+        <p class="view"><a href="http://stanliski.github.io/myblog/leetcode.html">LeetCode</a></a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/mysql.html">MySQL</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/java.html">Java</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/pythonandshell.html">Python and Shell</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/hadoop.html">Hadoop</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/linux.html">Linux</a></p>
+
+      </header>
+      <section>
+        <h1>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mahout安装与测试－基于hadoop单结点伪分布式</h1>
+
+<p>
+ <h3>
+<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装JDK</h3>
+<p>
+Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http://mirror.esocc.com/apache/hadoop/common/stable/
+</p>
+<h3>Hadoop单结点伪分布式安装</h3>
+<p>见我之前关于Hadoop单结点伪分布式安装的博客：
+http://blog.csdn.net/stanely_hwang/article/details/18884181</p>
+<h3>Mahout安装与配置</h3>
+<h4>1：下载二进制解压安装：</h4>
+<p>Mahout下载地址：
+http://www.apache.org/dyn/closer.cgi/mahout/</p>
+<p>Mahout下载完后，直接解压。我将Mahout下载到/opt/hadoop下，进入该目录，进行解压操作</p>
+<pre>
+<code>$ cd /opt/hadoop
+$ tar -zxvf mahout-distribution-0.9</code>
+</pre>
+<h4>2：配置环境变量：</h4>
+<p>用vim编辑/etc/profile文件, 再文件末尾添加$JHADOOP_HOME, $HADOOP_CONF,$MAHOUT_HOME 环境遍历，
+详细配置信息如下所示：</p>
+<pre>
+<code>JAVA_HOME=/opt/java/jdk
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/bin
+JRE_HOME=/opt/java/jdk
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/bin
+export JAVA_HOME
+export JRE_HOME
+export HADOOP_HOME=/home/andy/hadoop-2.2.0
+export HADOOP_CONF_DIR=/home/andy/hadoop-2.2.0/conf
+export MAHOUT_HOME=/opt/hadoop/mahout-distribution-0.9
+export PATH=$HADOOP_HOME/bin:$MAHOUT_HOME/bin:$PATH
+export PATH
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/sbin
+</code>
+</pre>
+<h4>3：启动Hadoop：</h4>
+<p>到Hadoop安装目录的sbin目录下执行（~/hadoop-2.2.0/sbin目录下):</p>
+<pre><code>$  ./hadoop-daemon.sh start namenode
+ $ ./hadoop-daemon.sh start datanode
+$ ./yarn-daemon.sh start resourcemanager
+ $ ./yarn-daemon.sh start nodemanager
+</code></pre>
+<h4>4：mahout --help    #检查Mahout是否安装完好，看是否列出了一些算法:</h4>
+<p>进入$MAHOUT_HOME/bin目录</p>
+<pre><code>$ cd $MAHOUT_HOME/bin
+ $ ./mahout --help 
+ </code></pre>
+ <p>输出内容如下：</p>
+ <pre><code>MAHOUT_LOCAL is not set; adding HADOOP_CONF_DIR to classpath.
+Running on hadoop, using /home/andy/hadoop-2.2.0/bin/hadoop and HADOOP_CONF_DIR=/home/andy/hadoop-2.2.0/conf
+MAHOUT-JOB: /opt/hadoop/mahout-distribution-0.9/mahout-examples-0.9-job.jar
+Unknown program '--help' chosen.
+Valid program names are:
+  arff.vector: : Generate Vectors from an ARFF file or directory
+  baumwelch: : Baum-Welch algorithm for unsupervised HMM training
+  canopy: : Canopy clustering
+  cat: : Print a file or resource as the logistic regression models would see it
+  cleansvd: : Cleanup and verification of SVD output
+  clusterdump: : Dump cluster output to text
+  clusterpp: : Groups Clustering Output In Clusters
+  cmdump: : Dump confusion matrix in HTML or text formats
+  concatmatrices: : Concatenates 2 matrices of same cardinality into a single matrix
+  cvb: : LDA via Collapsed Variation Bayes (0th deriv. approx)
+  cvb0_local: : LDA via Collapsed Variation Bayes, in memory locally.
+  evaluateFactorization: : compute RMSE and MAE of a rating matrix factorization against probes
+  fkmeans: : Fuzzy K-means clustering
+  hmmpredict: : Generate random sequence of observations by given HMM
+  itemsimilarity: : Compute the item-item-similarities for item-based collaborative filtering
+  kmeans: : K-means clustering
+  lucene.vector: : Generate Vectors from a Lucene index
+  lucene2seq: : Generate Text SequenceFiles from a Lucene index
+  matrixdump: : Dump matrix in CSV format
+  matrixmult: : Take the product of two matrices
+  parallelALS: : ALS-WR factorization of a rating matrix
+  qualcluster: : Runs clustering experiments and summarizes results in a CSV
+  recommendfactorized: : Compute recommendations using the factorization of a rating matrix
+  recommenditembased: : Compute recommendations using item-based collaborative filtering
+  regexconverter: : Convert text files on a per line basis based on regular expressions
+  resplit: : Splits a set of SequenceFiles into a number of equal splits
+  rowid: : Map SequenceFile<Text,VectorWritable> to {SequenceFile<IntWritable,VectorWritable>, SequenceFile<IntWritable,Text>}
+  rowsimilarity: : Compute the pairwise similarities of the rows of a matrix
+  runAdaptiveLogistic: : Score new production data using a probably trained and validated AdaptivelogisticRegression model
+  runlogistic: : Run a logistic regression model against CSV data
+  seq2encoded: : Encoded Sparse Vector generation from Text sequence files
+  seq2sparse: : Sparse Vector generation from Text sequence files
+  seqdirectory: : Generate sequence files (of Text) from a directory
+  seqdumper: : Generic Sequence File dumper
+  seqmailarchives: : Creates SequenceFile from a directory containing gzipped mail archives
+  seqwiki: : Wikipedia xml dump to sequence file
+  spectralkmeans: : Spectral k-means clustering
+  split: : Split Input data into test and train sets
+  splitDataset: : split a rating dataset into training and probe parts
+  ssvd: : Stochastic SVD
+  streamingkmeans: : Streaming k-means clustering
+  svd: : Lanczos Singular Value Decomposition
+  testnb: : Test the Vector-based Bayes classifier
+  trainAdaptiveLogistic: : Train an AdaptivelogisticRegression model
+  trainlogistic: : Train a logistic regression using stochastic gradient descent
+  trainnb: : Train the Vector-based Bayes classifier
+  transpose: : Take the transpose of a matrix
+  validateAdaptiveLogistic: : Validate an AdaptivelogisticRegression model against hold-out data set
+  vecdist: : Compute the distances between a set of Vectors (or Cluster or Canopy, they must fit in memory) and a list of Vectors
+  vectordump: : Dump vectors from a sequence file to text
+  viterbi: : Viterbi decoding of hidden states from given output states sequence
+[andy@localhost bin]$ 
+ </code></pre>
+<h4>5：mahout使用准备：</h4>
+<h4>准备数据：</h4>
+<h4>测试数据下载地址：</h4>
+<pre><code>http://archive.ics.uci.edu/ml/databases/synthetic_control/synthetic_control.data
+</code></pre>
+<p>下载完后，将数据放入$MAHOUT_HOME文件下</p>
+<p>创建测试目录</p>
+<p>创建测试目录testdata，并将数据导入到testdata中  </p>
+<pre><code>$ cd $HADOOP_HOME/bin/
+$ hadoop fs -mkdir testdata #
+$ hadoop fs -put $MAHOUT_HOME/synthetic_control.data testdata
+</code></pre>
+<h4>使用kmeans算法</h4>
+<pre><code>
+$ hadoop jar /home/hadoop/mahout-distribution-0.7/mahout-examples-0.7-job.jar org.apache.mahout.clustering.syntheticcontrol.kmeans.Job
+</code></pre>
+<h4>查看结果</h4>
+<pre><code>$ hadoop fs -lsr output
+$ hadoop fs －get output $MAHOUT_HOME/result
+$ cd $MAHOUT_HOME/example/result
+$ ls
+</code></pre>
+<p>运行正常表示安装成功</p>
+ </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Andy19890601">Stanliski</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

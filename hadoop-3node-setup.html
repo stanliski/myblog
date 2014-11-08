@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blogs by Stanliski</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <!--
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://softwaremaniacs.org/media/soft/highlight/styles/tomorrow-night-bright.css">
+	<script src="http://softwaremaniacs.org/media/soft/highlight/highlight.pack.js"></script>
+	<script>
+		hljs.tabReplace = '    ';
+		hljs.initHighlightingOnLoad();
+	</script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stanliski's Blog</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/Andy19890601/myblog">View the Project on GitHub <small>stanliski/myblog</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Andy19890601/myblog/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog">View On <strong>GitHub</strong></a></li>
+        </ul>
+        <p class="view"><a href="http://stanliski.github.io/myblog/leetcode.html">LeetCode</a></a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/mysql.html">MySQL</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/java.html">Java</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/pythonandshell.html">Python and Shell</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/hadoop.html">Hadoop</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/linux.html">Linux</a></p>
+
+      </header>
+      <section>
+        <h1>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hadoop三节点的搭建</h1>
+
+<p>
+ <h3>
+<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hadoop 2.2下载</h3>
+<p>
+Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http://mirror.esocc.com/apache/hadoop/common/stable/
+</p>
+<h3>Hadoop集群环境搭建准备</h3>
+<p>这里我们搭建一个由三台机器组成的集群</p>
+<p>
+<table>
+<tr>
+	<th>Ip地址</th>
+	<th>用户名</th>
+	<th>主机名</th>
+	<th>系统</th>
+</tr>
+<tr>
+	<td>192.168.1.105</td>
+	<td>hadoop</td>
+	<td>master</td>
+	<td>Ubuntu  64bit</td>
+</tr>
+<tr>
+	<td>192.168.1.120</td>
+	<td>hadoop</td>
+	<td>slave2</td>
+	<td>CentOS 64bit</td>
+</tr>
+<tr>
+	<td>192.168.1.104</td>
+	<td>hadoop</td>
+	<td>slave1</td>
+	<td>CentOS 64bit</td>
+</tr>
+</table>
+</p>
+<h4>1.通过如下配置master, slave1, slave2。</h4>
+<p>1) 通过vim /etc/hostname修改主机名。</p>
+<p>2) 通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
+master，slave1，slave2三台主机安装ssh服务，实现各个节点间的无密码登录！
+        进入slave1的～/.ssh目录下</p>
+<pre lang="Shell"><code>
+$ ssh-keygen
+$ chmod 700 ~/.ssh/
+$ cat id_rsa.pub >> authorized_keys
+$ chmod 600 authorized_keys
+$ scp authorized_keys hadoop@slave2:~/.ssh/
+</code></pre>
+<p>进入slave2的～/.ssh目录下<p>
+<pre><code>$ ssh-keygen
+$ chmod 700 ~/.ssh/
+$ cat id_rsa.pub >> authorized_keys
+$ chmod 600 authorized_keys
+$ scp authorized_keys hadoop@master:~/.ssh/
+</code></pre>
+<p>进入master的～/.ssh目录下<p>
+<pre><code class="shell">$ ssh-keygen
+$ chmod 700 ~/.ssh/
+$ cat id_rsa.pub >> authorized_keys
+$ chmod 600 authorized_keys
+$ scp authorized_keys hadoop@slave2:~/.ssh/
+$ scp authorized_keys hadoop@slave1:~/.ssh/
+</code></pre>
+<p>
+	经过这样的操作，三节点都能实现相互无密码访问
+JDK安装:包含master，slave1， slave2三节点，最好位置统一,例如像本例一样安装在/opt/java/jdk目录下  
+</p>
+<h3>
+	Hadoop 2.2安装  
+</h3>
+<p>由于hadoop集群中每个机器上面的配置基本相同，所以我们先在namenode上面进行配置部署，然后再复制到其他节点。所以这里的安装过程相当于在每台机器上面都要执行。
+</p>
+<h4>1.解压文件</h4>
+<p>
+	 将第一部分中下载的hadoop-2.2.tar.gz解压到/home/u(根据自己的目录进行替换)/路径下（或者将在64位机器上编译的结果存放在此路径下）。然后为了节省空间，可删除此压缩文件，或将其存放于其他地方进行备份。
+注意：每台机器的安装路径要相同！！  
+</p>
+<h4>2.hadoop配置过程</h4>
+<p>
+配置之前，需要在master本地文件系统创建以下文件夹：
+这里要涉及到的配置文件有6个：  
+</p>
+<pre>
+<code>~/hadoop-2.2.0/etc/hadoop/hadoop-env.sh
+~/hadoop-2.2.0/etc/hadoop/slaves
+~/hadoop-2.2.0/etc/hadoop/core-site.xml
+~/hadoop-2.2.0/etc/hadoop/hdfs-site.xml
+~/hadoop-2.2.0/etc/hadoop/mapred-site.xml
+~/hadoop-2.2.0/etc/hadoop/yarn-site.xml</code>
+</pre>
+<p>以上文件默认不存在的，可以复制相应的template文件获得。
+配置文件1：hadoop-env.sh（slave1，slave2也需要配置）
+修改JAVA_HOME值（export  JAVA_HOME=/opt/java/jdk）
+配置文件2：slaves （这个文件里面保存所有slave节点）
+写入以下内容：
+slave1
+slave2</p>
+<h4>配置文件3：core-site.xml
+</h4>
+<p>
+<pre><code class="xml"><configuration>
+	<property>
+	  <name>hadoop.tmp.dir</name>
+	  <value>/home/hadoop/tmp/hadoop-${user.name}</value>
+	  <description>A base for other temporarydirectories.</description>
+	</property>
+	<property>
+	   <name>fs.default.name</name>
+	   <value>hdfs://master:8010</value>
+	   <description>The name of the default file system.  A URI whose
+	           scheme and authority determine the FileSystem implementation.  The
+	              uri's scheme determines the config property (fs.SCHEME.impl) naming
+	                 the FileSystem implementation class. The uri's authority is used to
+	                    determine the host, port, etc. for a filesystem.</description>
+	  </property> 
+</configuration></code>	
+</pre>
+
+</p>
+<h4>配置文件4：hdfs-site.xml</h4>
+<h4>配置文件5：mapred-site.xml</h4>
+<h4>yarn-site.xml：暂时无需配置</h4>
+<p>配置文件6：yarn-site.xml：暂时无需配置
+</p>
+<h3>3.复制到其他节点</h3>
+<p>master通过scp命令(必须先配置好ssh服务)将配置文件传输给两个子节点slave1,slave2,下面以slave1为例</p> 
+<pre>
+<code>$ scp -r ~/hadoop-2.2.0 hadoop@slave1:~/
+$ scp -r ~/hadoop-2.2.0 hadoop@slave2:~/</code>
+</pre>
+<h3>4.启动验证</h3>
+<h4>1.启动hadoop<h4>
+<p>进入安装目录：</p>
+<pre><code>cd  ~/hadoop-2.2.0/</code></pre>
+<p>格式化namenode：</p>
+<pre><code>./bin/hdfs namenode –format </code></pre>
+  <h4>2.启动hdfs:</h4>
+ <pre><code>./sbin/start-dfs.sh</code></pre>
+  <p>此时在master上面运行的进程有：</p>
+  <p>namenode secondarynamenode</p>
+   
+  <p>slave1和slave2上面运行的进程有：datanode</p>
+ 
+  <h4>3.启动yarn: ./sbin/start-yarn.sh</h4>
+  <p>此时在master上面运行的进程有：</p>
+  <p>namenode secondarynamenoderesourcemanager</p>
+  <p>slave1和slave2上面运行的进程有：datanode nodemanaget</p>
+  <h4>4.查看集群状态：</h4>
+  <pre><code>./bin/hdfs dfsadmin –report</pre></code>
+  <p> 运行命令：
+最终运行结果如下所示，则安装成功！</p>
+  <pre><code>hadoop@master:~/hadoop-2.2.0/bin$ ./hdfs dfsadmin -report
+14/03/20 21:24:44 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Configured Capacity: 139443990528 (129.87 GB)
+Present Capacity: 123374796800 (114.90 GB)
+DFS Remaining: 123374747648 (114.90 GB)
+DFS Used: 49152 (48 KB)
+DFS Used%: 0.00%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+
+
+-------------------------------------------------
+Datanodes available: 2 (2 total, 0 dead)
+
+
+Live datanodes:
+Name: 192.168.1.120:50010 (slave2)
+Hostname: slave2
+Decommission Status : Normal
+Configured Capacity: 100111396864 (93.24 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 8277905408 (7.71 GB)
+DFS Remaining: 91833466880 (85.53 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 91.73%
+Last contact: Thu Mar 20 21:24:44 CST 2014
+
+
+
+
+Name: 192.168.1.104:50010 (slave1)
+Hostname: slave1
+Decommission Status : Normal
+Configured Capacity: 39332593664 (36.63 GB)
+DFS Used: 24576 (24 KB)
+Non DFS Used: 7791288320 (7.26 GB)
+DFS Remaining: 31541280768 (29.38 GB)
+DFS Used%: 0.00%
+DFS Remaining%: 80.19%
+Last contact: Thu Mar 20 21:24:43 CST 2014</code></pre>
+<h3> </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Andy19890601">Stanliski</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

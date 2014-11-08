@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blogs by Stanliski</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <!--
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://softwaremaniacs.org/media/soft/highlight/styles/tomorrow-night-bright.css">
+	<script src="http://softwaremaniacs.org/media/soft/highlight/highlight.pack.js"></script>
+	<script>
+		hljs.tabReplace = '    ';
+		hljs.initHighlightingOnLoad();
+	</script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stanliski's Blog</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/Andy19890601/myblog">View the Project on GitHub <small>stanliski/myblog</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Andy19890601/myblog/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog">View On <strong>GitHub</strong></a></li>
+        </ul>
+        
+        <p class="view"><a href="http://stanliski.github.io/myblog/leetcode.html">LeetCode</a></a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/mysql.html">MySQL</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/java.html">Java</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/pythonandshell.html">Python and Shell</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/hadoop.html">Hadoop</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/linux.html">Linux</a></p>
+      
+      	
+      </header>
+      <section>
+        <h1>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>JDK1.7在Ubuntu环境下的安装配置</h1>
+<h3>1.下载最新的JDK版本:</h3>
+<p>可以通过如下链接下载最新的JDK版本
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html</p>
+<h3>2.解压tar.gz包进行安装</h3>
+<p>选择相应的文件夹进行解压安装，这里根据我习惯将JDK安装在～/opt目录下。通过如下指令：</p>
+<pre><code>$ sudo tar -zxvf jdk-7u51-linux-x64.tar.gz</code></pre>
+<p>命令进行解压到~/opt 目录下这里为了方便日后更新JDK版本， 我们可以通过ln shell命令建立文件的软链接,进入～/opt文件，在终端输入如下bash命令：</p>
+<pre><code>$ sudo ln -s jdk-7u51-linux-x64 jdk1.7
+</code></pre> 
+<p>在这样我们就建立了软链接文件jdk1.7，日后我们需要更新JDK1.7的版本只需将软链接指向该版本的安装目录</p>
+<h3>3.配置JDK环境变量</h3>
+<p>通过vim 打开文件/etc/profile，在行尾添加</p>
+<pre><code>JAVA_HOME=~/opt/jdk1.7
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+JRE_HOME=~/opt/jdk1.7
+PATH=$PATH:$HOME/bin:$JRE_HOME/bin
+export JAVA_HOME
+export JRE_HOME
+export PATH
+export PATH=$PATH:/sbin</code></pre>
+<p>通过w!</p>
+<p>保存，通过q!/zz退出</p>
+<p>输入如下bash命令使得/etc/profile文件生效！</p>
+<pre><code>$ source /etc/profile</code></pre>
+<h3>4.由于Ubuntu中可能会有默认的JDK，如openJDK，所以，为了使默认使用的是我们安装的JDK，还要进行如下工作：</h3>
+<pre><code>$ update-alternatives --install /usr/bin/java java ~/opt/java1.7/bin/java 300
+$ update-alternatives --install /usr/bin/javac javac ~/opt/java1.7/bin/javac 300</code></pre>
+<p>通过下述指令，会显示系统当前的所有JDK版本，可以自行选择JDK版本：</p>
+<pre><code>
+$ update-alternatives --config java 
+  Selection    Path                                            Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java   1061      auto mode
+  1            /home/andy/opt/java/jdk/bin/java                 300       manual mode
+  2            /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java   1061      manual mode
+  3            /usr/local/java/jre1.7.0_12/bin/java             1         manual mode
+Press enter to keep the current choice[*], or type selection number: 
+</code></pre>
+<p>上述为bash指令的输出结果，可以在selection number后选择JDK版本的ID号。</p>
+<h3>5.判断JDK是否安装成功</h3>
+<pre><code>$ java -version</code></pre>
+<p>输出结果如下：</p>
+<pre><code>java version "1.7.0_27"
+OpenJDK Runtime Environment (IcedTea6 1.12.6) (6b27-1.12.6-1ubuntu0.12.04.2)
+OpenJDK 64-Bit Server VM (build 20.0-b12, mixed mode)</code></pre>
+</section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Andy19890601">Stanliski</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

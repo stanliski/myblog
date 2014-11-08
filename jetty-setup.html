@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blogs by Stanliski</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <!--
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="http://softwaremaniacs.org/media/soft/highlight/styles/tomorrow-night-bright.css">
+	<script src="http://softwaremaniacs.org/media/soft/highlight/highlight.pack.js"></script>
+	<script>
+		hljs.tabReplace = '    ';
+		hljs.initHighlightingOnLoad();
+	</script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stanliski's Blog</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/Andy19890601/myblog">View the Project on GitHub <small>stanliski/myblog</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/Andy19890601/myblog/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Andy19890601/myblog">View On <strong>GitHub</strong></a></li>
+        </ul>
+        
+        <p class="view"><a href="http://stanliski.github.io/myblog/leetcode.html">LeetCode</a></a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/mysql.html">MySQL</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/java.html">Java</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/pythonandshell.html">Python and Shell</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/hadoop.html">Hadoop</a></p>
+        <p class="view"><a href="http://stanliski.github.io/myblog/linux.html">Linux</a></p>
+      
+      	
+      </header>
+      <section>
+        <h1>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Jetty在Ubuntu上的安装</h1>
+<h3>1.下载安装包</h3>
+<p>官方下载地址：http://download.eclipse.org/jetty/</p>
+<h3>2.安装配置Jetty服务器</h3>
+<h4>2.1 解压Jetty安装包</h4>
+<p>通过tar指令在指定目录进行解压，这里我们选择在~/opt/目录下进行解压</p>
+<pre><code>sudo tar -zxvf jetty-distribution-7.6.14.v20131031.tar.gz</code></pre>
+<p>解压后进入~/opt/目录下，为了方便日后更新Jetty版本，我们可以建立软链接</p>
+<pre><code>sudo ln -s ~/opt/jetty-distribution-7.6.14.v20131031 ~/opt/jetty-server</code></pre>
+<p>选择相应的文件夹进行解压安装，这里根据我习惯将JDK安装在～/opt目录下。通过如下指令：</p>
+<pre><code>$ sudo tar -zxvf jdk-7u51-linux-x64.tar.gz</code></pre>
+<h4>2.2 配置Jetty环境变量</h4>
+<p>通过vim 在文件/etc/profile末尾添加上如下代码</p>
+<pre><code>export JETTY_HOME=~/opt/jetty-server</code></pre>
+<p>通过source指令使得文件修改生效</p>
+<pre><code>source /etc/profile</code></pre>
+<h3>3.运行JETTY服务器</h3>
+<p>进入JETTY服务器 bin目录  执行jetty.sh shell脚本文件</p>
+<pre><code>sudo ./jetty.sh start</code></pre>
+<h3>4.通过Localhost:8080访问服务器</h3>
+</section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Andy19890601">Stanliski</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
