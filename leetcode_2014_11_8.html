@@ -46,14 +46,48 @@
       <section>
         <h1>
 <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>LeetCode Judge OnLine</h1>
-<p><a>Word Break II, Word Break, Restore IP Addresses </a></p>
+<h4>Insert Interval</h4>
+<p>
+Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
+You may assume that the intervals were initially sorted according to their start times.
+<b>Example 1:</b>
+Given intervals [1,3],[6,9], insert and merge [2,5] in as [1,5],[6,9].
+<b>Example 2:</b>
+Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10],[12,16].
+This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
+</p>
 <p>
 <pre><code>
 	public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-		List<Interval> result = new ArrayList<Interval>();
-		
+        List<Interval> result = new ArrayList<Interval>();
+        if(newInterval == null)
+            return intervals;
+		intervals.add(newInterval);
+		if(intervals.size() == 1)
+		    return intervals;
+		Collections.sort(intervals, new Comparator(){
+			@Override
+			public int compare(Object o1, Object o2) {
+				Interval inter1 = (Interval)o1;
+				Interval inter2 = (Interval)o2;
+				return inter1.start - inter2.start;
+			}
+		});
+		Interval pre = intervals.get(0);
+		for(int i = 1; i < intervals.size(); i++){
+			Interval cur = intervals.get(i);
+			if(cur.start <= pre.end){
+				int start = pre.start;
+				int end = (pre.end > cur.end) ? pre.end : cur.end;
+				pre = new Interval(start, end);
+			}else{
+				result.add(pre);
+				pre = cur;
+			}
+		}
+		result.add(pre);
 		return result;
-	}
+    }
 </code></pre>
 </p>
 
