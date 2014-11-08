@@ -43,201 +43,139 @@
       </header>
       <section>
         <h1>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hadoop三节点的搭建</h1>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mahout安装与测试－基于hadoop单结点伪分布式</h1>
 
 <p>
  <h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hadoop 2.2下载</h3>
+<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>安装JDK</h3>
 <p>
 Hadoop2.2.0 我们可以直接从Apache官方网站下载。下载地址：http://mirror.esocc.com/apache/hadoop/common/stable/
 </p>
-<h3>Hadoop集群环境搭建准备</h3>
-<p>这里我们搭建一个由三台机器组成的集群</p>
-<p>
-<table>
-<tr>
-	<th>Ip地址</th>
-	<th>用户名</th>
-	<th>主机名</th>
-	<th>系统</th>
-</tr>
-<tr>
-	<td>192.168.1.105</td>
-	<td>hadoop</td>
-	<td>master</td>
-	<td>Ubuntu  64bit</td>
-</tr>
-<tr>
-	<td>192.168.1.120</td>
-	<td>hadoop</td>
-	<td>slave2</td>
-	<td>CentOS 64bit</td>
-</tr>
-<tr>
-	<td>192.168.1.104</td>
-	<td>hadoop</td>
-	<td>slave1</td>
-	<td>CentOS 64bit</td>
-</tr>
-</table>
-</p>
-<h4>1.通过如下配置master, slave1, slave2。</h4>
-<p>1) 通过vim /etc/hostname修改主机名。</p>
-<p>2) 通过vim /etc/hosts修改/etc/hosts 文件，增加三台机器的ip和hostname的映射关系。
-master，slave1，slave2三台主机安装ssh服务，实现各个节点间的无密码登录！
-        进入slave1的～/.ssh目录下</p>
-<pre lang="Shell"><code>
-$ ssh-keygen
-$ chmod 700 ~/.ssh/
-$ cat id_rsa.pub >> authorized_keys
-$ chmod 600 authorized_keys
-$ scp authorized_keys hadoop@slave2:~/.ssh/
-</code></pre>
-<p>进入slave2的～/.ssh目录下<p>
-<pre><code>$ ssh-keygen
-$ chmod 700 ~/.ssh/
-$ cat id_rsa.pub >> authorized_keys
-$ chmod 600 authorized_keys
-$ scp authorized_keys hadoop@master:~/.ssh/
-</code></pre>
-<p>进入master的～/.ssh目录下<p>
-<pre><code>$ ssh-keygen
-$ chmod 700 ~/.ssh/
-$ cat id_rsa.pub >> authorized_keys
-$ chmod 600 authorized_keys
-$ scp authorized_keys hadoop@slave2:~/.ssh/
-$ scp authorized_keys hadoop@slave1:~/.ssh/
-</code></pre>
-<p>
-	经过这样的操作，三节点都能实现相互无密码访问
-JDK安装:包含master，slave1， slave2三节点，最好位置统一,例如像本例一样安装在/opt/java/jdk目录下  
-</p>
-<h3>
-	Hadoop 2.2安装  
-</h3>
-<p>由于hadoop集群中每个机器上面的配置基本相同，所以我们先在namenode上面进行配置部署，然后再复制到其他节点。所以这里的安装过程相当于在每台机器上面都要执行。
-</p>
-<h4>1.解压文件</h4>
-<p>
-	 将第一部分中下载的hadoop-2.2.tar.gz解压到/home/u(根据自己的目录进行替换)/路径下（或者将在64位机器上编译的结果存放在此路径下）。然后为了节省空间，可删除此压缩文件，或将其存放于其他地方进行备份。
-注意：每台机器的安装路径要相同！！  
-</p>
-<h4>2.hadoop配置过程</h4>
-<p>
-配置之前，需要在master本地文件系统创建以下文件夹：
-这里要涉及到的配置文件有6个：  
-</p>
+<h3>Hadoop单结点伪分布式安装</h3>
+<p>见我之前关于Hadoop单结点伪分布式安装的博客：
+http://blog.csdn.net/stanely_hwang/article/details/18884181</p>
+<h3>Mahout安装与配置</h3>
+<h4>1：下载二进制解压安装：</h4>
+<p>Mahout下载地址：
+http://www.apache.org/dyn/closer.cgi/mahout/</p>
+<p>Mahout下载完后，直接解压。我将Mahout下载到/opt/hadoop下，进入该目录，进行解压操作</p>
 <pre>
-<code>~/hadoop-2.2.0/etc/hadoop/hadoop-env.sh
-~/hadoop-2.2.0/etc/hadoop/slaves
-~/hadoop-2.2.0/etc/hadoop/core-site.xml
-~/hadoop-2.2.0/etc/hadoop/hdfs-site.xml
-~/hadoop-2.2.0/etc/hadoop/mapred-site.xml
-~/hadoop-2.2.0/etc/hadoop/yarn-site.xml</code>
+<code>$ cd /opt/hadoop
+$ tar -zxvf mahout-distribution-0.9</code>
 </pre>
-<p>以上文件默认不存在的，可以复制相应的template文件获得。
-配置文件1：hadoop-env.sh（slave1，slave2也需要配置）
-修改JAVA_HOME值（export  JAVA_HOME=/opt/java/jdk）
-配置文件2：slaves （这个文件里面保存所有slave节点）
-写入以下内容：
-slave1
-slave2</p>
-<h4>配置文件3：core-site.xml
-</h4>
-<p>
-<pre><code class="xml"><configuration>
-	<property>
-	  <name>hadoop.tmp.dir</name>
-	  <value>/home/hadoop/tmp/hadoop-${user.name}</value>
-	  <description>A base for other temporarydirectories.</description>
-	</property>
-	<property>
-	   <name>fs.default.name</name>
-	   <value>hdfs://master:8010</value>
-	   <description>The name of the default file system.  A URI whose
-	           scheme and authority determine the FileSystem implementation.  The
-	              uri's scheme determines the config property (fs.SCHEME.impl) naming
-	                 the FileSystem implementation class. The uri's authority is used to
-	                    determine the host, port, etc. for a filesystem.</description>
-	  </property> 
-</configuration></code>	
-</pre>
-
-</p>
-<h4>配置文件4：hdfs-site.xml</h4>
-<h4>配置文件5：mapred-site.xml</h4>
-<h4>yarn-site.xml：暂时无需配置</h4>
-<p>配置文件6：yarn-site.xml：暂时无需配置
-</p>
-<h3>3.复制到其他节点</h3>
-<p>master通过scp命令(必须先配置好ssh服务)将配置文件传输给两个子节点slave1,slave2,下面以slave1为例</p> 
+<h4>2：配置环境变量：</h4>
+<p>用vim编辑/etc/profile文件, 再文件末尾添加$JHADOOP_HOME, $HADOOP_CONF,$MAHOUT_HOME 环境遍历，
+详细配置信息如下所示：</p>
 <pre>
-<code>$ scp -r ~/hadoop-2.2.0 hadoop@slave1:~/
-$ scp -r ~/hadoop-2.2.0 hadoop@slave2:~/</code>
+<code>JAVA_HOME=/opt/java/jdk
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/bin
+JRE_HOME=/opt/java/jdk
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/bin
+export JAVA_HOME
+export JRE_HOME
+export HADOOP_HOME=/home/andy/hadoop-2.2.0
+export HADOOP_CONF_DIR=/home/andy/hadoop-2.2.0/conf
+export MAHOUT_HOME=/opt/hadoop/mahout-distribution-0.9
+export PATH=$HADOOP_HOME/bin:$MAHOUT_HOME/bin:$PATH
+export PATH
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/sbin
+</code>
 </pre>
-<h3>4.启动验证</h3>
-<h4>1.启动hadoop<h4>
-<p>进入安装目录：</p>
-<pre><code>cd  ~/hadoop-2.2.0/</code></pre>
-<p>格式化namenode：</p>
-<pre><code>./bin/hdfs namenode –format </code></pre>
-  <h4>2.启动hdfs:</h4>
- <pre><code>./sbin/start-dfs.sh</code></pre>
-  <p>此时在master上面运行的进程有：</p>
-  <p>namenode secondarynamenode</p>
-   
-  <p>slave1和slave2上面运行的进程有：datanode</p>
- 
-  <h4>3.启动yarn: ./sbin/start-yarn.sh</h4>
-  <p>此时在master上面运行的进程有：</p>
-  <p>namenode secondarynamenoderesourcemanager</p>
-  <p>slave1和slave2上面运行的进程有：datanode nodemanaget</p>
-  <h4>4.查看集群状态：</h4>
-  <pre><code>./bin/hdfs dfsadmin –report</pre></code>
-  <p> 运行命令：
-最终运行结果如下所示，则安装成功！</p>
-  <pre><code>hadoop@master:~/hadoop-2.2.0/bin$ ./hdfs dfsadmin -report
-14/03/20 21:24:44 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-Configured Capacity: 139443990528 (129.87 GB)
-Present Capacity: 123374796800 (114.90 GB)
-DFS Remaining: 123374747648 (114.90 GB)
-DFS Used: 49152 (48 KB)
-DFS Used%: 0.00%
-Under replicated blocks: 0
-Blocks with corrupt replicas: 0
-Missing blocks: 0
-
-
--------------------------------------------------
-Datanodes available: 2 (2 total, 0 dead)
-
-
-Live datanodes:
-Name: 192.168.1.120:50010 (slave2)
-Hostname: slave2
-Decommission Status : Normal
-Configured Capacity: 100111396864 (93.24 GB)
-DFS Used: 24576 (24 KB)
-Non DFS Used: 8277905408 (7.71 GB)
-DFS Remaining: 91833466880 (85.53 GB)
-DFS Used%: 0.00%
-DFS Remaining%: 91.73%
-Last contact: Thu Mar 20 21:24:44 CST 2014
-
-
-
-
-Name: 192.168.1.104:50010 (slave1)
-Hostname: slave1
-Decommission Status : Normal
-Configured Capacity: 39332593664 (36.63 GB)
-DFS Used: 24576 (24 KB)
-Non DFS Used: 7791288320 (7.26 GB)
-DFS Remaining: 31541280768 (29.38 GB)
-DFS Used%: 0.00%
-DFS Remaining%: 80.19%
-Last contact: Thu Mar 20 21:24:43 CST 2014</code></pre>
-<h3> </section>
+<h4>3：启动Hadoop：</h4>
+<p>到Hadoop安装目录的sbin目录下执行（~/hadoop-2.2.0/sbin目录下):</p>
+<pre><code>$  ./hadoop-daemon.sh start namenode
+ $ ./hadoop-daemon.sh start datanode
+$ ./yarn-daemon.sh start resourcemanager
+ $ ./yarn-daemon.sh start nodemanager
+</code></pre>
+<h4>4：mahout --help    #检查Mahout是否安装完好，看是否列出了一些算法:</h4>
+<p>进入$MAHOUT_HOME/bin目录</p>
+<pre><code>$ cd $MAHOUT_HOME/bin
+ $ ./mahout --help 
+ </code></pre>
+ <p>输出内容如下：</p>
+ <pre><code>MAHOUT_LOCAL is not set; adding HADOOP_CONF_DIR to classpath.
+Running on hadoop, using /home/andy/hadoop-2.2.0/bin/hadoop and HADOOP_CONF_DIR=/home/andy/hadoop-2.2.0/conf
+MAHOUT-JOB: /opt/hadoop/mahout-distribution-0.9/mahout-examples-0.9-job.jar
+Unknown program '--help' chosen.
+Valid program names are:
+  arff.vector: : Generate Vectors from an ARFF file or directory
+  baumwelch: : Baum-Welch algorithm for unsupervised HMM training
+  canopy: : Canopy clustering
+  cat: : Print a file or resource as the logistic regression models would see it
+  cleansvd: : Cleanup and verification of SVD output
+  clusterdump: : Dump cluster output to text
+  clusterpp: : Groups Clustering Output In Clusters
+  cmdump: : Dump confusion matrix in HTML or text formats
+  concatmatrices: : Concatenates 2 matrices of same cardinality into a single matrix
+  cvb: : LDA via Collapsed Variation Bayes (0th deriv. approx)
+  cvb0_local: : LDA via Collapsed Variation Bayes, in memory locally.
+  evaluateFactorization: : compute RMSE and MAE of a rating matrix factorization against probes
+  fkmeans: : Fuzzy K-means clustering
+  hmmpredict: : Generate random sequence of observations by given HMM
+  itemsimilarity: : Compute the item-item-similarities for item-based collaborative filtering
+  kmeans: : K-means clustering
+  lucene.vector: : Generate Vectors from a Lucene index
+  lucene2seq: : Generate Text SequenceFiles from a Lucene index
+  matrixdump: : Dump matrix in CSV format
+  matrixmult: : Take the product of two matrices
+  parallelALS: : ALS-WR factorization of a rating matrix
+  qualcluster: : Runs clustering experiments and summarizes results in a CSV
+  recommendfactorized: : Compute recommendations using the factorization of a rating matrix
+  recommenditembased: : Compute recommendations using item-based collaborative filtering
+  regexconverter: : Convert text files on a per line basis based on regular expressions
+  resplit: : Splits a set of SequenceFiles into a number of equal splits
+  rowid: : Map SequenceFile<Text,VectorWritable> to {SequenceFile<IntWritable,VectorWritable>, SequenceFile<IntWritable,Text>}
+  rowsimilarity: : Compute the pairwise similarities of the rows of a matrix
+  runAdaptiveLogistic: : Score new production data using a probably trained and validated AdaptivelogisticRegression model
+  runlogistic: : Run a logistic regression model against CSV data
+  seq2encoded: : Encoded Sparse Vector generation from Text sequence files
+  seq2sparse: : Sparse Vector generation from Text sequence files
+  seqdirectory: : Generate sequence files (of Text) from a directory
+  seqdumper: : Generic Sequence File dumper
+  seqmailarchives: : Creates SequenceFile from a directory containing gzipped mail archives
+  seqwiki: : Wikipedia xml dump to sequence file
+  spectralkmeans: : Spectral k-means clustering
+  split: : Split Input data into test and train sets
+  splitDataset: : split a rating dataset into training and probe parts
+  ssvd: : Stochastic SVD
+  streamingkmeans: : Streaming k-means clustering
+  svd: : Lanczos Singular Value Decomposition
+  testnb: : Test the Vector-based Bayes classifier
+  trainAdaptiveLogistic: : Train an AdaptivelogisticRegression model
+  trainlogistic: : Train a logistic regression using stochastic gradient descent
+  trainnb: : Train the Vector-based Bayes classifier
+  transpose: : Take the transpose of a matrix
+  validateAdaptiveLogistic: : Validate an AdaptivelogisticRegression model against hold-out data set
+  vecdist: : Compute the distances between a set of Vectors (or Cluster or Canopy, they must fit in memory) and a list of Vectors
+  vectordump: : Dump vectors from a sequence file to text
+  viterbi: : Viterbi decoding of hidden states from given output states sequence
+[andy@localhost bin]$ 
+ </code></pre>
+<h4>5：mahout使用准备：</h4>
+<h4>准备数据：</h4>
+<h4>测试数据下载地址：</h4>
+<pre><code>http://archive.ics.uci.edu/ml/databases/synthetic_control/synthetic_control.data
+</code></pre>
+<p>下载完后，将数据放入$MAHOUT_HOME文件下</p>
+<p>创建测试目录</p>
+<p>创建测试目录testdata，并将数据导入到testdata中  </p>
+<pre><code>$ cd $HADOOP_HOME/bin/
+$ hadoop fs -mkdir testdata #
+$ hadoop fs -put $MAHOUT_HOME/synthetic_control.data testdata
+</code></pre>
+<h4>使用kmeans算法</h4>
+<pre><code>
+$ hadoop jar /home/hadoop/mahout-distribution-0.7/mahout-examples-0.7-job.jar org.apache.mahout.clustering.syntheticcontrol.kmeans.Job
+</code></pre>
+<h4>查看结果</h4>
+<pre><code>$ hadoop fs -lsr output
+$ hadoop fs －get output $MAHOUT_HOME/result
+$ cd $MAHOUT_HOME/example/result
+$ ls
+</code></pre>
+<p>运行正常表示安装成功</p>
+ </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/Andy19890601">Stanliski</a></p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
