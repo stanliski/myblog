@@ -46,10 +46,7 @@
       </header>
       <section>
         <h1>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Jetty在Ubuntu上的安装</h1>
-<h3>1.下载安装包</h3>
-<p>官方下载地址：http://download.eclipse.org/jetty/</p>
-<h3>2.安装配置Jetty服务器</h3>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>GitHub</h1>
 <h3>GitHub上传代码</h3>
 <p>在需要上传的项目目录下，创建一个.git文件夹</p>
 <pre><code>$git init</code></pre>
@@ -64,24 +61,6 @@ $git remote add origin git@github.com:stanliski/demo.git</code></pre>
 $git push –u origin master</code></pre>
 <p>把代码拉回本地</p>
 <pre><code>$git pull origin master</code></pre>
-
-<h4>2.1 解压Jetty安装包</h4>
-
-<p>通过tar指令在指定目录进行解压，这里我们选择在~/opt/目录下进行解压</p>
-<pre><code>git init</code></pre>
-<p>解压后进入~/opt/目录下，为了方便日后更新Jetty版本，我们可以建立软链接</p>
-<pre><code>sudo ln -s ~/opt/jetty-distribution-7.6.14.v20131031 ~/opt/jetty-server</code></pre>
-<p>选择相应的文件夹进行解压安装，这里根据我习惯将JDK安装在～/opt目录下。通过如下指令：</p>
-<pre><code>$ sudo tar -zxvf jdk-7u51-linux-x64.tar.gz</code></pre>
-<h4>2.2 配置Jetty环境变量</h4>
-<p>通过vim 在文件/etc/profile末尾添加上如下代码</p>
-<pre><code>export JETTY_HOME=~/opt/jetty-server</code></pre>
-<p>通过source指令使得文件修改生效</p>
-<pre><code>source /etc/profile</code></pre>
-<h3>3.运行JETTY服务器</h3>
-<p>进入JETTY服务器 bin目录  执行jetty.sh shell脚本文件</p>
-<pre><code>sudo ./jetty.sh start</code></pre>
-<h3>4.通过Localhost:8080访问服务器</h3>
 </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/Andy19890601">Stanliski</a></p>
