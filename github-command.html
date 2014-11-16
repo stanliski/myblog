@@ -50,7 +50,23 @@
 <h3>1.下载安装包</h3>
 <p>官方下载地址：http://download.eclipse.org/jetty/</p>
 <h3>2.安装配置Jetty服务器</h3>
+<h3>GitHub上传代码</h3>
+<p>在需要上传的项目目录下，创建一个.git文件夹</p>
+<pre><code>$git init</code></pre>
+<p>把当前路径下的所有文件添加到待上传的文件列表</p>
+<pre><code>$git add . </code></pre>
+<p>或者</p>
+<pre><code>$git add filename
+$git commit –m “xxx”
+$git remote add origin git@github.com:stanliski/demo.git</code></pre>
+<p>把代码上传到服务器上</p>
+<pre><code>
+$git push –u origin master</code></pre>
+<p>把代码拉回本地</p>
+<pre><code>$git pull origin master</code></pre>
+
 <h4>2.1 解压Jetty安装包</h4>
+
 <p>通过tar指令在指定目录进行解压，这里我们选择在~/opt/目录下进行解压</p>
 <pre><code>git init</code></pre>
 <p>解压后进入~/opt/目录下，为了方便日后更新Jetty版本，我们可以建立软链接</p>
