@@ -1,11 +1,5 @@
-	com.jufengniao.news.entity.News n = new com.jufengniao.news.entity.News();
-			n.setContent(news.getContent());
-			n.setSources(news.getUrl());
-			n.setTitle(news.getTitle());
-			n.setCreateTime(news.getDate());
-			n.setPark(parkService.get(new Long(1)));
-			n.setMenu(menuService.get(new Long(85)));
-			n.setTop(new Long(0));
-			n.setViewsNumber(new Long(0));
-			NewsFilter filter = new NewsFilter();
-			newsService.save(n);
+SpiderSettings settings = new SpiderSettings();
+		settings.setDetailContentScreening("div[style=padding:10px;text-align:left]");
+		settings.setItemsScreening("div[style=background-color:#ffffff;text-align:left;width:680px;] a");
+		settings.setItemsTitleScreening("");
+		String url = "http://www.ccop.or.th";
