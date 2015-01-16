@@ -1,34 +1,22 @@
-LASP希望达到的目的是使得Business，IT Develop以及DBA这些语言不通的角色，可以通过该平台的智能管理，消除之间存在的宏沟。
-之前各大公司例如银行，发布的App，需要专门的人员进行管理，进行分配存储，配置环境等繁琐操作。现在通过LASP，我们仅仅需要将App在平台上注册，设置好各种参数，例如硬盘大小，IO数。LASP将智能分析，将APP分成几个等级，并将其通过基因等算法分配到ViPR平台上的各个不同的VPool中。并且实时监控App在平台上的运行情况，遇到异常情况生成警告和建议信息提醒用户，并且能智能做出分配调整。下图是LASP的基本概念图。（由于公司不允许将公司内部文件传给外人，我只能凭借印象画了这几个Visio图，基本包含了LASP的内容）
-System UI:
-获得App监控的基本信息，例如APP数，警告信息，建议措施等，通过Highchart等报表进行展现。用于还可以通过System UI对App存储属性进行相关设置。
-App Workload Info & SLO Translator：
-通过调用ViPR接口，获得VPool同App的映射，获取相应的Workload信息，并将其进行分析转化。例如经过对比分析出潜在的风险。
-Workload-Aware Recommand Engine：
-通过遗传算法将App分配到系统APP最佳的VPool中。从而使得App的Workload最低，App运行效率最高。此部分是系统最核心的部分。
-Metric Monitor：
-调用ViPR REST-API Invoker的API，在APP的runtime期间，对系统的一系列行为进行监控，并且将异常信息提交Alert Generator。
-Alert Generator：
-Alert Generator会分析Metric Monitor提交上来的监控信息，生成Alert信息，并且也会提出相应的解决方案提示用户做出调整。
-ViPR REST-API Invoker：
-对于具体底层VPool的运行机制，我们不用关注，这些都是ViPR的工作，我们只需要调用ViPR REST-API Invoker的接口获得App和存储的实时信息，做出一些转化即可。
-Play Framework
-Play Framework是一个Rails风格的Full-stack Java Web框架。
-使用Play开发时没有编译，打包和部署这些阶段，代之两个不同环境：用于开发阶段的DEV模式和用户部署阶段的PROD模式。
-Java源代码在运行时编译和加载。如果Java源文件在应用运行时发生改变，代码会重新编译并热加载(hot-swapped)到JVM中。模板文件也是如此。
-关于DEV/PROD模式
-通过application.mode配置属性切换DEV或PROD。DEV模式下，Play会检查并在必要时热加载。PROD模式为产品做了优化:Java源文件和模板仅编译一次。
-Highchart 
-    之前在MSCI主要做的就是前端报表可视化开发，Highchart将会用于App数据的监控显示。
-Cassandra
-Cassandra数据库在Lasp项目中主要用于存储一些App的配置信息。考虑到App的配置信息会很多，并且半结构化，采用Cassandra是个很不错的选择
-Cassandra是一套开源分布式NoSQL数据库系统。它最初由Facebook开发，用于储存收件箱等简单格式数据，集GoogleBigTable的数据模型与Amazon Dynamo的完全分布式的架构于一身Facebook于2008将 Cassandra 开源，此后，由于Cassandra良好的可扩放性，被Digg、Twitter等知名Web 2.0网站所采纳，成为了一种流行的分布式结构化数据存储方案。
-Cassandra是一个混合型的非关系的数据库，类似于Google的BigTable。其主要功能比Dynamo （分布式的Key-Value存储系统）更丰富，但支持度却不如文档存储MongoDB（介于关系数据库和非关系数据库之间的开源产品，是非关系数据库当中功能最丰富，最像关系数据库的。支持的数据结构非常松散，是类似json的bjson格式，因此可以存储比较复杂的数据类型）。Cassandra最初由Facebook开发，后转变成了开源项目。它是一个网络社交云计算方面理想的数据库。以Amazon专有的完全分布式的Dynamo为基础，结合了Google BigTable基于列族（Column Family）的数据模型。P2P去中心化的存储。很多方面都可以称之为Dynamo 2.0。
-Zookeeper
-ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服务，是Google的Chubby一个开源的实现，是Hadoop和Hbase的重要组件。它是一个为分布式应用提供一致性服务的软件，提供的功能包括：配置维护、名字服务、分布式同步、组服务等。
-ZooKeeper的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。
-由于Lasp是一个基于大数据的分布式智能系统，程序协调服务采用Zookeeper是比较稳妥的选择。
-GA
-	遗传算法和日志语义转化，可以说是LASP很核心的两个模块。LASP最核心的功能便是根据用于提交的APP配置信息，通过算法将其合理的分配给VPool。并且时刻监视App的运行情况，适时对存储进行调整，使得App高效运行。因而这块算法显得尤为重要。目前的版本中，采用的是一个遗传算法，效果一般。公司导师已经发给我几篇paper，希望我能够重新设计个算法，让其更高效运行。这块工作也是我实习期间最重要的工作之一。
-日志语意分析转化
-	对于收集到的运行日志，我们将通过调用底层ViPR接口进行分析，发掘出潜在App运行的分析，并提供一些建议措施。这块工作现在基本处于起步阶段，后期有很多可以完善之处。
+name := "lasp-poc"
+
+version := "1.0-SNAPSHOT"
+
+libraryDependencies ++= Seq(
+  javaJdbc,
+  javaEbean,
+  "org.mockito" % "mockito-all" % "1.9.5",
+  "com.sun.jersey" % "jersey-core" % "1.12",
+  "com.sun.jersey" % "jersey-client" % "1.12",
+  "org.codehaus.jackson" % "jackson-jaxrs" % "1.9.2",
+  cache,
+  "org.apache.poi" % "poi" % "3.8",
+  "org.apache.poi" % "poi-ooxml" % "3.9",
+  "com.jcraft" % "jsch" % "0.1.51",
+  "commons-beanutils" % "commons-beanutils" % "1.8.3",
+  "mysql" % "mysql-connector-java" % "5.1.34",
+  "joda-time" % "joda-time" % "2.6",
+  "com.google.code.gson" % "gson" % "2.3.1"
+)     
+
+play.Project.playJavaSettings
